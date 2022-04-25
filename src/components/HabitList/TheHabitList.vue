@@ -1,14 +1,20 @@
 <template>
+  <base-modal v-if="showModal" @close="closeModal">
+    // conditionally show modal-form or error
   <div class="habit-list">
     <header><h2>My Habits</h2></header>
-    <ul>
-      <li v-for="habit in habits" :key="habit.id">
-        <habit-list-item :habit="habit"></habit-list-item>
-      </li>
-    </ul>
-    <base-actions>
-      <base-button>Add New Habit</base-button>
-    </base-actions>
+    <section>
+      <ul>
+        <li v-for="habit in habits" :key="habit.id">
+          <habit-list-item :habit="habit"></habit-list-item>
+        </li>
+      </ul>
+    </section>
+    <menu>
+      <base-actions>
+        <base-button>Add New Habit</base-button>
+      </base-actions>
+    </menu>
   </div>
 </template>
 
@@ -93,7 +99,14 @@ export default {
           ],
         },
       ],
+      showModal: true,
     };
+  },
+  methods: {
+    closeModal() {
+      console.log('here');
+      this.showModal = false;
+    },
   },
 };
 </script>
