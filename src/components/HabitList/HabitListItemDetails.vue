@@ -3,8 +3,8 @@
     <h3>{{ name }}</h3>
     <div class="habit-start-date">{{ startDate }}</div>
     <base-actions>
-      <base-button buttonStyle="icon">Edit</base-button>
-      <base-button buttonStyle="icon">Delete</base-button>
+      <base-button buttonStyle="icon"><fa-icon icon="edit"></fa-icon> </base-button>
+      <base-button buttonStyle="icon"><fa-icon icon="trash-can"></fa-icon></base-button>
     </base-actions>
   </div>
 </template>
