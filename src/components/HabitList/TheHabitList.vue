@@ -1,6 +1,7 @@
 <template>
   <base-modal v-if="showModal" @close="closeModal">
-    // conditionally show modal-form or error
+    <!-- conditionally show modal-form or error -->
+  </base-modal>
   <div class="habit-list">
     <header><h2>My Habits</h2></header>
     <section>
@@ -99,7 +100,7 @@ export default {
           ],
         },
       ],
-      showModal: true,
+      showModal: false,
     };
   },
   methods: {
