@@ -1,7 +1,11 @@
 <template>
   <div class="habit-list">
     <base-modal v-if="modalType === 'createHabit'" @closeModal="closeModal()">
-      <habit-form :submitForm="createNewHabit" :close="closeModal"> </habit-form>
+      <habit-form :submitForm="createNewHabit" :close="closeModal" title="Create New Habit"> </habit-form>
+    </base-modal>
+    <base-modal v-if="modalType === 'updateHabit'" @closeModal="closeModal()">
+      <habit-form :submitForm="updateHabit" :close="closeModal" title="Update Habit" :habit="habitToUpdate">
+      </habit-form>
     </base-modal>
     <base-modal v-if="modalType === 'deleteHabit'" @closeModal="closeModal()">
       <div>
@@ -22,7 +26,7 @@
     <section>
       <ul>
         <li v-for="habit in habits" :key="habit.id">
-          <habit-list-item :habit="habit" :deleteHabit="processDelete"></habit-list-item>
+          <habit-list-item :habit="habit" :deleteHabit="processDelete" :updateHabit="processUpdate"></habit-list-item>
         </li>
       </ul>
     </section>
@@ -64,6 +68,7 @@ export default {
           id: new Date().toUTCString(),
           name: 'Morning Meditation',
           startDate: '2022-04-04T07:00:00.000Z',
+          duration: 7,
           days: [
             {
               date: '2022-04-05T07:00:00.000Z',
@@ -99,7 +104,36 @@ export default {
           id: new Date().toUTCString(),
           name: 'Make sure to do this thing every day.',
           startDate: '4/4/22',
+          duration: 7,
           days: [
+            {
+              date: '4/4/22',
+              done: true,
+            },
+            {
+              date: '4/5/22',
+              done: true,
+            },
+            {
+              date: '4/6/22',
+              done: true,
+            },
+            {
+              date: '4/7/22',
+              done: false,
+            },
+            {
+              date: '4/8/22',
+              done: false,
+            },
+            {
+              date: '4/9/22',
+              done: true,
+            },
+            {
+              date: '4/10/22',
+              done: false,
+            },
             {
               date: '4/4/22',
               done: true,
@@ -154,12 +188,27 @@ export default {
       this.habits.push(newHabit);
       this.modalType = null;
     },
+    processUpdate(id) {
+      const habit = this.habits.find((h) => h.id === id);
+      this.habitToUpdate = habit;
+      this.modalType = 'updateHabit';
+    },
+    updateHabit(updatedHabitData) {
+      const orig = this.habits.find((h) => h.id === updatedHabitData.id);
+      orig.name = updatedHabitData.name;
+
+      if (orig.startDate != updatedHabitData.startDate || orig.duration != updatedHabitData.duration) {
+        orig.days = createDays(updatedHabitData.startDate, updatedHabitData.duration);
+      }
+
+      orig.startDate = updatedHabitData.startDate;
+      orig.duration = updatedHabitData.duration;
+      this.modalType = null;
+    },
     processDelete(habit) {
       this.habitToDelete = habit;
       this.modalType = 'deleteHabit';
-      this.$forceUpdate();
     },
-
     deleteHabit(id) {
       console.log('here');
       const indexToDelete = this.habits.findIndex((h) => h.Id === id);

@@ -1,12 +1,12 @@
 <template>
   <div>
     <header>
-      <h2>Create A Habit</h2>
+      <h2>{{ title }}</h2>
     </header>
     <form class="habit-form" @submit.prevent="processForm">
       <div class="form-div">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" ref="nameInput" />
+        <input type="text" name="name" id="name" ref="nameInput" v-model="enteredName" />
         <div v-if="invalidName" class="error">You must enter a habit name.</div>
       </div>
       <div class="form-div">
@@ -22,7 +22,7 @@
       </div>
       <base-actions>
         <base-button @click="close">Back</base-button>
-        <base-button type="submit">Create</base-button>
+        <base-button type="submit"> {{ habit ? 'Update' : 'Create' }}</base-button>
       </base-actions>
     </form>
   </div>
@@ -31,6 +31,10 @@
 <script>
 export default {
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
     submitForm: {
       type: Function,
       required: false,
@@ -47,7 +51,7 @@ export default {
   data() {
     return {
       enteredName: this.habit?.name || '',
-      enteredStartDate: this.habit?.startDate || new Date().toISOString().substring(0, 10),
+      enteredStartDate: this.habit?.startDate.substring(0, 10) || new Date().toISOString().substring(0, 10),
       enteredDuration: this.habit?.duration || 7,
       invalidName: false,
       invalidStartDate: false,
@@ -69,6 +73,7 @@ export default {
         name: name,
         startDate: new Date(startDate).toISOString(),
         duration: duration,
+        id: this.habit?.id,
       });
     },
     validateForm(name, startDate) {

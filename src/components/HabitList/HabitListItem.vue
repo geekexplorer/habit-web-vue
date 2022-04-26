@@ -5,6 +5,7 @@
       :name="habit.name"
       :startDate="habit.startDate"
       :deleteHabit="deleteHabit"
+      :updateHabit="updateHabit"
     ></habit-list-item-details>
     <habit-list-item-days :days="habit.days"></habit-list-item-days>
   </base-card>
@@ -25,6 +26,10 @@ export default {
       required: true,
     },
     deleteHabit: {
+      type: Function,
+      required: true,
+    },
+    updateHabit: {
       type: Function,
       required: true,
     },

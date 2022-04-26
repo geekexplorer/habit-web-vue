@@ -46,8 +46,4 @@ h2 {
 h3 {
   font-size: 1.25rem;
 }
-
-main {
-  min-width: 25rem;
-}
 </style>
