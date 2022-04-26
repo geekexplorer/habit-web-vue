@@ -11,24 +11,14 @@
       </div>
       <div class="form-div">
         <label for="startDate">Start Date</label>
-        <input type="date" name="startDate" id="startDate" ref="startDateInput" />
-        <div v-if="invalidStartDate" class="error">You must enter a valid date.</div>
+        <input type="date" :value="enteredStartDate" ref="startDateInput" />
+        <div v-if="invalidStartDate" class="error">You must enter a valid start date.</div>
       </div>
       <div class="form-div">
         <label for="duration"
-          >Duration <span>{{ enteredDuration || defaultDuration }} days</span></label
+          >Duration <span>{{ enteredDuration }} days</span></label
         >
-        <input
-          type="range"
-          min="7"
-          max="31"
-          value="defaulDuration"
-          ref="durationInput"
-          @change="enteredDuration = $refs.durationInput.value"
-        />
-        <div v-if="invalidName" class="error">
-          You must enter a duration of between 7 and 31 days.
-        </div>
+        <input type="range" v-model="enteredDuration" min="7" max="31" />
       </div>
       <base-actions>
         <base-button @click="exitForm">Back</base-button>
@@ -49,57 +39,51 @@ export default {
       type: Function,
       required: true,
     },
+    habit: {
+      type: Object,
+      required: false,
+    },
   },
   data() {
     return {
-      defaultDuration: 7,
-      name: '',
-      startDate: new Date().toLocaleDateString(),
-      enteredDuration: this.defaultDuration,
+      enteredName: this.habit?.name || '',
+      enteredStartDate: this.habit?.startDate || new Date().toISOString().substring(0, 10),
+      enteredDuration: this.habit?.duration || 7,
       invalidName: false,
       invalidStartDate: false,
-      invalidDuration: false,
     };
   },
   methods: {
     processForm() {
-      const enteredName = this.$refs.nameInput.value.trim();
-      const enteredStartDate = this.$refs.startDateInput.value.trim();
-      const enteredDuration = this.$refs.durationInput.value;
+      const name = this.$refs.nameInput.value.trim();
+      const startDate = this.$refs.startDateInput.value.trim();
+      const duration = +this.enteredDuration;
 
-      const formIsValid = this.validateForm(enteredName, enteredStartDate, enteredDuration);
+      const formIsValid = this.validateForm(name, startDate);
 
       if (!formIsValid) {
         return;
       }
 
       this.submitForm({
-        name: enteredName,
-        startDate: enteredStartDate,
-        duration: enteredDuration,
+        name: name,
+        startDate: new Date(startDate).toISOString(),
+        duration: duration,
       });
     },
-    validateForm(name, startDate, duration) {
-      name, startDate, duration;
-
-      let isFormValid = true;
-
-      if (name.length <= 0) {
+    validateForm(name, startDate) {
+      let isValid = true;
+      if (name.lenght <= 0) {
         this.invalidName = true;
-        isFormValid = false;
+        isValid = false;
       }
 
-      if (startDate.length <= 0) {
+      if (!startDate || startDate.length <= 0) {
         this.invalidStartDate = true;
-        isFormValid = false;
+        isValid = false;
       }
 
-      if (duration < this.defaultDuration || duration > this.maxDuration) {
-        this.invalidDuration = true;
-        isFormValid = false;
-      }
-
-      return isFormValid;
+      return isValid;
     },
   },
 };
@@ -165,7 +149,11 @@ div.error {
   font-size: 0.8rem;
 }
 
-.error {
+input.error {
+  border-color: red;
+}
+
+div.error {
   background-color: pink;
   color: red;
 }

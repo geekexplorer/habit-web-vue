@@ -1,10 +1,10 @@
 <template>
   <div class="day">
     <div class="status">
-      <fa-icon class="done" v-if="day.done" icon="circle-check" size="2x"></fa-icon>
-      <fa-icon v-else icon="circle" size="2x"></fa-icon>
+      <fa-icon class="done" v-if="day.done" icon="circle-check" size="3x"></fa-icon>
+      <fa-icon v-else icon="circle" size="3x"></fa-icon>
     </div>
-    <div class="date">{{ shortDate(day.date) }}</div>
+    <div class="date">{{ getShortDate() }}</div>
   </div>
 </template>
 
@@ -12,8 +12,9 @@
 export default {
   props: ['day'],
   methods: {
-    shortDate(date) {
-      return date.split('/').splice(1, 2).join('/');
+    getShortDate() {
+      const date = new Date(this.day.date).toISOString().substr(0, 10);
+      return date.split('-').splice(1, 2).join('/');
     },
   },
 };
@@ -31,7 +32,7 @@ export default {
 }
 
 .done {
-  color: yellow;
+  color: gold;
 }
 
 .date {

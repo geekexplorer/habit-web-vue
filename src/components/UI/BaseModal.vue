@@ -12,7 +12,6 @@ export default {
   emits: ['close'],
   methods: {
     close() {
-      console.log('here');
       this.$emit('close');
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="habit-details">
     <h3>{{ name }}</h3>
-    <div class="habit-start-date">{{ startDate }}</div>
+    <div class="habit-start-date">{{ getDateString() }}</div>
     <base-actions>
       <base-button buttonStyle="icon"><fa-icon icon="edit"></fa-icon> </base-button>
       <base-button buttonStyle="icon"><fa-icon icon="trash-can"></fa-icon></base-button>
@@ -12,6 +12,15 @@
 <script>
 export default {
   props: ['name', 'startDate'],
+  methods: {
+    getDateString() {
+      const isoDate = new Date(this.startDate).toISOString().substring(0, 10);
+      let dateParts = isoDate.split('-').map((m) => +m);
+      const year = dateParts.splice(0, 1);
+      dateParts.push(year);
+      return dateParts.join('/');
+    },
+  },
 };
 </script>
 
@@ -19,10 +28,9 @@ export default {
 .habit-details {
   display: flex;
   flex-flow: column nowrap;
-  background-color: #ccc;
   row-gap: 0.5rem;
   width: 17rem;
-  min-width: 5rem;
+  min-width: 6rem;
   text-align: center;
   overflow: hidden;
 }

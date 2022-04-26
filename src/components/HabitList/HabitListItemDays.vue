@@ -26,6 +26,7 @@ export default {
   flex-wrap: wrap;
   column-gap: 1rem;
   row-gap: 1rem;
-  background-color: #ccc;
+  min-width: 12rem;
+  overflow: hidden;
 }
 </style>

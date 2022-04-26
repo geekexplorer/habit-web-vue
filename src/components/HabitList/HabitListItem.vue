@@ -1,9 +1,6 @@
 <template>
   <base-card cardType="habit-list-item">
-    <habit-list-item-details
-      :name="habit.name"
-      :startDate="habit.startDate"
-    ></habit-list-item-details>
+    <habit-list-item-details :name="habit.name" :startDate="habit.startDate"></habit-list-item-details>
     <habit-list-item-days :days="habit.days"></habit-list-item-days>
   </base-card>
 </template>
@@ -31,6 +28,7 @@ export default {
   padding: 1rem;
   display: flex;
   flex-wrap: nowrap;
-  column-gap: 1.5rem;
+  column-gap: 2rem;
+  min-width: 20rem;
 }
 </style>

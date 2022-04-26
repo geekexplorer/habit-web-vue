@@ -1,12 +1,7 @@
 <template>
   <div class="habit-list">
     <base-modal v-if="modalType" @close="closeModal">
-      <habit-form
-        v-if="modalType === 'createHabit'"
-        :createNewHabit="createNewHabit"
-        :exitForm="closeModal"
-      >
-      </habit-form>
+      <habit-form v-if="modalType === 'createHabit'" :submitForm="createNewHabit" :exitForm="closeModal"> </habit-form>
     </base-modal>
 
     <header>
@@ -31,6 +26,20 @@
 import HabitListItem from './HabitListItem.vue';
 import HabitForm from '../HabitForm/HabitForm.vue';
 
+const createDays = (startDateString, duration) => {
+  const msInDay = 8.64e7;
+  const date = new Date(startDateString);
+  const dateInMs = date.getTime();
+
+  const days = [];
+
+  for (let x = 0; x < duration; x++) {
+    days.push({ date: new Date(dateInMs + msInDay * x).toISOString().substr(0, 10), done: false });
+  }
+
+  return days;
+};
+
 export default {
   components: {
     HabitListItem,
@@ -42,34 +51,34 @@ export default {
         {
           id: new Date().toUTCString(),
           name: 'Morning Meditation',
-          startDate: '4/4/22',
+          startDate: '2022-04-04T07:00:00.000Z',
           days: [
             {
-              date: '4/4/22',
+              date: '2022-04-05T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/5/22',
+              date: '2022-04-06T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/6/22',
+              date: '2022-04-07T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/7/22',
+              date: '2022-04-08T07:00:00.000Z',
               done: false,
             },
             {
-              date: '4/8/22',
+              date: '2022-04-09T07:00:00.000Z',
               done: false,
             },
             {
-              date: '4/9/22',
+              date: '2022-04-10T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/10/22',
+              date: '2022-04-11T07:00:00.000Z',
               done: false,
             },
           ],
@@ -120,8 +129,17 @@ export default {
     showCreateHabitModal() {
       this.modalType = 'createHabit';
     },
-    createNewHabit(name, startDate, duration) {
-      console.log('create: ', name, startDate, duration);
+    createNewHabit(habit) {
+      const newHabit = {
+        id: new Date().toUTCString(),
+        name: habit.name,
+        startDate: habit.startDate,
+        duration: habit.duration,
+        days: createDays(habit.startDate, habit.duration),
+      };
+
+      this.habits.push(newHabit);
+      this.modalType = null;
     },
   },
 };
@@ -133,12 +151,8 @@ header {
   font-weight: bold;
 }
 
-.habit-list {
-  background-color: lightblue;
-}
-
 ul {
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 li {
