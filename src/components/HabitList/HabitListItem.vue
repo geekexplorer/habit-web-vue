@@ -1,6 +1,11 @@
 <template>
   <base-card cardType="habit-list-item">
-    <habit-list-item-details :name="habit.name" :startDate="habit.startDate"></habit-list-item-details>
+    <habit-list-item-details
+      :id="habit.id"
+      :name="habit.name"
+      :startDate="habit.startDate"
+      :deleteHabit="deleteHabit"
+    ></habit-list-item-details>
     <habit-list-item-days :days="habit.days"></habit-list-item-days>
   </base-card>
 </template>
@@ -17,6 +22,10 @@ export default {
   props: {
     habit: {
       type: Object,
+      required: true,
+    },
+    deleteHabit: {
+      type: Function,
       required: true,
     },
   },

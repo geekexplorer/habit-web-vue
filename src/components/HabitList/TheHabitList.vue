@@ -1,7 +1,19 @@
 <template>
   <div class="habit-list">
-    <base-modal v-if="modalType" @close="closeModal">
-      <habit-form v-if="modalType === 'createHabit'" :submitForm="createNewHabit" :exitForm="closeModal"> </habit-form>
+    <base-modal v-if="modalType === 'createHabit'" @closeModal="closeModal()">
+      <habit-form :submitForm="createNewHabit" :close="closeModal"> </habit-form>
+    </base-modal>
+    <base-modal v-if="modalType === 'deleteHabit'" @closeModal="closeModal()">
+      <div>
+        <h3>Are you sure you want to delete {{ habitToDelete.name }}?</h3>
+      </div>
+
+      <menu>
+        <base-actions>
+          <base-button @click="closeModal()"> Back </base-button>
+          <base-button @click="deleteHabit(habitToDelete.id)">Delete</base-button>
+        </base-actions>
+      </menu>
     </base-modal>
 
     <header>
@@ -10,7 +22,7 @@
     <section>
       <ul>
         <li v-for="habit in habits" :key="habit.id">
-          <habit-list-item :habit="habit"></habit-list-item>
+          <habit-list-item :habit="habit" :deleteHabit="processDelete"></habit-list-item>
         </li>
       </ul>
     </section>
@@ -120,6 +132,7 @@ export default {
         },
       ],
       modalType: null,
+      habitToDelete: null,
     };
   },
   methods: {
@@ -141,6 +154,18 @@ export default {
       this.habits.push(newHabit);
       this.modalType = null;
     },
+    processDelete(habit) {
+      this.habitToDelete = habit;
+      this.modalType = 'deleteHabit';
+      this.$forceUpdate();
+    },
+
+    deleteHabit(id) {
+      console.log('here');
+      const indexToDelete = this.habits.findIndex((h) => h.Id === id);
+      this.habits.splice(indexToDelete, 1);
+      this.modalType = null;
+    },
   },
 };
 </script>
@@ -153,6 +178,7 @@ header {
 
 ul {
   padding: 0 1rem;
+  min-height: 2rem;
 }
 
 li {

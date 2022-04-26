@@ -4,14 +4,14 @@
     <div class="habit-start-date">{{ getDateString() }}</div>
     <base-actions>
       <base-button buttonStyle="icon"><fa-icon icon="edit"></fa-icon> </base-button>
-      <base-button buttonStyle="icon"><fa-icon icon="trash-can"></fa-icon></base-button>
+      <base-button buttonStyle="icon"><fa-icon icon="trash-can" @click="processDelete"></fa-icon></base-button>
     </base-actions>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['name', 'startDate'],
+  props: ['id', 'name', 'startDate', 'deleteHabit'],
   methods: {
     getDateString() {
       const isoDate = new Date(this.startDate).toISOString().substring(0, 10);
@@ -19,6 +19,9 @@ export default {
       const year = dateParts.splice(0, 1);
       dateParts.push(year);
       return dateParts.join('/');
+    },
+    processDelete() {
+      this.deleteHabit(this.id);
     },
   },
 };

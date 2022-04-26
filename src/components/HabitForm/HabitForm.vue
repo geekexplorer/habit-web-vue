@@ -21,7 +21,7 @@
         <input type="range" v-model="enteredDuration" min="7" max="31" />
       </div>
       <base-actions>
-        <base-button @click="exitForm">Back</base-button>
+        <base-button @click="close">Back</base-button>
         <base-button type="submit">Create</base-button>
       </base-actions>
     </form>
@@ -35,7 +35,7 @@ export default {
       type: Function,
       required: false,
     },
-    exitForm: {
+    close: {
       type: Function,
       required: true,
     },
