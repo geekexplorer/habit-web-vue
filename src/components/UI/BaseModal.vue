@@ -33,7 +33,7 @@ dialog {
   position: fixed;
   top: 20vh;
   left: 30%;
-  width: 40%;
+  width: fit-content;
   z-index: 100;
   padding: 2rem;
   margin: 0;

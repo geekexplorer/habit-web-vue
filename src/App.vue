@@ -46,4 +46,9 @@ h2 {
 h3 {
   font-size: 1.25rem;
 }
+
+main {
+  margin: auto;
+  width: 90%;
+}
 </style>

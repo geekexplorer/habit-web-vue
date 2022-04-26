@@ -20,7 +20,6 @@ div.base-card {
   padding: 1rem;
   margin: 2rem auto;
   width: fit-content;
-  min-width: 25rem;
 }
 
 div.habit-list-item {
