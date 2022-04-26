@@ -16,9 +16,18 @@ export default {
 </script>
 
 <style scoped>
-div.habit-details {
+.habit-details {
   display: flex;
   flex-flow: column nowrap;
   background-color: #ccc;
+  row-gap: 0.5rem;
+  width: 17rem;
+  min-width: 5rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.habit-start-date {
+  font-size: 0.8rem;
 }
 </style>

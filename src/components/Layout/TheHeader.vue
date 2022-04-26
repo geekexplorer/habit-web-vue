@@ -1,5 +1,7 @@
 <template>
-  <header><h1>Habit Tracker</h1></header>
+  <header>
+    <h1>Habit Tracker</h1>
+  </header>
 </template>
 
 <style scoped>
@@ -7,6 +9,7 @@ header {
   background-color: silver;
   text-align: center;
   padding: 1rem;
+  font-weight: bold;
 }
 
 h1 {

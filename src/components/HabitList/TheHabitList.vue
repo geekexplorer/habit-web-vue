@@ -1,9 +1,17 @@
 <template>
-  <base-modal v-if="showModal" @close="closeModal">
-    <!-- conditionally show modal-form or error -->
-  </base-modal>
   <div class="habit-list">
-    <header><h2>My Habits</h2></header>
+    <base-modal v-if="modalType" @close="closeModal">
+      <habit-form
+        v-if="modalType === 'createHabit'"
+        :createNewHabit="createNewHabit"
+        :exitForm="closeModal"
+      >
+      </habit-form>
+    </base-modal>
+
+    <header>
+      <h2>My Habits</h2>
+    </header>
     <section>
       <ul>
         <li v-for="habit in habits" :key="habit.id">
@@ -13,7 +21,7 @@
     </section>
     <menu>
       <base-actions>
-        <base-button>Add New Habit</base-button>
+        <base-button @click="showCreateHabitModal">Add New Habit</base-button>
       </base-actions>
     </menu>
   </div>
@@ -21,10 +29,12 @@
 
 <script>
 import HabitListItem from './HabitListItem.vue';
+import HabitForm from '../HabitForm/HabitForm.vue';
 
 export default {
   components: {
     HabitListItem,
+    HabitForm,
   },
   data() {
     return {
@@ -66,7 +76,7 @@ export default {
         },
         {
           id: new Date().toUTCString(),
-          name: 'Morning Meditation',
+          name: 'Make sure to do this thing every day.',
           startDate: '4/4/22',
           days: [
             {
@@ -100,13 +110,18 @@ export default {
           ],
         },
       ],
-      showModal: false,
+      modalType: null,
     };
   },
   methods: {
     closeModal() {
-      console.log('here');
-      this.showModal = false;
+      this.modalType = null;
+    },
+    showCreateHabitModal() {
+      this.modalType = 'createHabit';
+    },
+    createNewHabit(name, startDate, duration) {
+      console.log('create: ', name, startDate, duration);
     },
   },
 };
@@ -115,7 +130,7 @@ export default {
 <style scoped>
 header {
   text-align: center;
-  padding-top: 1rem;
+  font-weight: bold;
 }
 
 .habit-list {

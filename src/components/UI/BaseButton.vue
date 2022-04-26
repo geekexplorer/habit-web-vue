@@ -1,12 +1,12 @@
 <template>
-  <button :class="buttonStyle ? buttonStyle : 'basic'">
+  <button :class="buttonStyle ? buttonStyle : 'basic'" :type="type ? type : 'button'">
     <slot>Button</slot>
   </button>
 </template>
 
 <script>
 export default {
-  props: ['buttonStyle'],
+  props: ['type', 'buttonStyle'],
 };
 </script>
 

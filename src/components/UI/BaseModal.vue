@@ -1,20 +1,8 @@
 <template>
   <teleport to="body">
-    <div @click="$emit('close')"></div>
+    <div @click="close"></div>
     <dialog open>
-      <header>
-        <slot name="header"></slot>
-      </header>
-      <section>
-        <slot></slot>
-      </section>
-      <menu>
-        <slot name="actions">
-          <base-actions>
-            <base-button @click="close">Ok</base-button>
-          </base-actions>
-        </slot>
-      </menu>
+      <slot></slot>
     </dialog>
   </teleport>
 </template>
@@ -45,12 +33,17 @@ div {
 dialog {
   position: fixed;
   top: 20vh;
-  left: 10%;
-  width: 80%;
+  left: 30%;
+  width: 40%;
   z-index: 100;
   padding: 2rem;
   margin: 0;
   overflow: hidden;
   background-color: white;
+}
+
+header {
+  text-align: center;
+  padding-bottom: 2rem;
 }
 </style>
