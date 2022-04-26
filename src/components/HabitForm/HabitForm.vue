@@ -7,14 +7,28 @@
       <div class="form-div">
         <label for="name">Name</label>
         <input type="text" name="name" id="name" ref="nameInput" />
+        <div v-if="invalidName" class="error">You must enter a habit name.</div>
       </div>
       <div class="form-div">
         <label for="startDate">Start Date</label>
         <input type="date" name="startDate" id="startDate" ref="startDateInput" />
+        <div v-if="invalidStartDate" class="error">You must enter a valid date.</div>
       </div>
       <div class="form-div">
-        <label for="duration">Duration</label>
-        <input type="range" min="7" max="31" default="defaultDuration" ref="durationInput" />
+        <label for="duration"
+          >Duration <span>{{ enteredDuration || defaultDuration }} days</span></label
+        >
+        <input
+          type="range"
+          min="7"
+          max="31"
+          value="defaulDuration"
+          ref="durationInput"
+          @change="enteredDuration = $refs.durationInput.value"
+        />
+        <div v-if="invalidName" class="error">
+          You must enter a duration of between 7 and 31 days.
+        </div>
       </div>
       <base-actions>
         <base-button @click="exitForm">Back</base-button>
@@ -41,7 +55,10 @@ export default {
       defaultDuration: 7,
       name: '',
       startDate: new Date().toLocaleDateString(),
-      duration: 7,
+      enteredDuration: this.defaultDuration,
+      invalidName: false,
+      invalidStartDate: false,
+      invalidDuration: false,
     };
   },
   methods: {
@@ -56,11 +73,33 @@ export default {
         return;
       }
 
-      console.log('valid');
+      this.submitForm({
+        name: enteredName,
+        startDate: enteredStartDate,
+        duration: enteredDuration,
+      });
     },
     validateForm(name, startDate, duration) {
       name, startDate, duration;
-      return true;
+
+      let isFormValid = true;
+
+      if (name.length <= 0) {
+        this.invalidName = true;
+        isFormValid = false;
+      }
+
+      if (startDate.length <= 0) {
+        this.invalidStartDate = true;
+        isFormValid = false;
+      }
+
+      if (duration < this.defaultDuration || duration > this.maxDuration) {
+        this.invalidDuration = true;
+        isFormValid = false;
+      }
+
+      return isFormValid;
     },
   },
 };
@@ -88,6 +127,7 @@ header {
 label {
   display: block;
   font-weight: bold;
+  width: 100%;
 }
 
 input {
@@ -117,5 +157,22 @@ input[type='range']::-webkit-slider-thumb {
   cursor: ew-resize;
   box-shadow: 0 0 2px 0 #555;
   transition: background 0.3s ease-in-out;
+}
+
+div.error {
+  margin-top: 0.5rem;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.error {
+  background-color: pink;
+  color: red;
+}
+
+label span {
+  float: right;
+  font-weight: normal;
+  color: #aaa;
 }
 </style>
