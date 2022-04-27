@@ -7,7 +7,7 @@
       :deleteHabit="deleteHabit"
       :updateHabit="updateHabit"
     ></habit-list-item-details>
-    <habit-list-item-days :days="habit.days"></habit-list-item-days>
+    <habit-list-item-days :days="habit.days" :toggleDay="toggleDay"></habit-list-item-days>
   </base-card>
 </template>
 
@@ -32,6 +32,12 @@ export default {
     updateHabit: {
       type: Function,
       required: true,
+    },
+  },
+  methods: {
+    toggleDay(date) {
+      const day = this.habit.days.find((d) => d.date === date);
+      day.done = !day.done;
     },
   },
 };

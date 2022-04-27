@@ -134,34 +134,6 @@ export default {
               date: '4/10/22',
               done: false,
             },
-            {
-              date: '4/4/22',
-              done: true,
-            },
-            {
-              date: '4/5/22',
-              done: true,
-            },
-            {
-              date: '4/6/22',
-              done: true,
-            },
-            {
-              date: '4/7/22',
-              done: false,
-            },
-            {
-              date: '4/8/22',
-              done: false,
-            },
-            {
-              date: '4/9/22',
-              done: true,
-            },
-            {
-              date: '4/10/22',
-              done: false,
-            },
           ],
         },
       ],

@@ -6,14 +6,14 @@
 
 <style scoped>
 header {
-  background-color: silver;
   text-align: center;
-  padding: 1rem;
+  padding-top: 1rem;
   font-weight: bold;
+  margin: 0 auto;
 }
 
 h1 {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin: auto;
+  width: fit-content;
 }
 </style>

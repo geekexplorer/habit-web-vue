@@ -1,6 +1,6 @@
 <template>
   <div class="day">
-    <div class="status">
+    <div class="status" @click="processToggle">
       <fa-icon class="done" v-if="day.done" icon="circle-check" size="3x"></fa-icon>
       <fa-icon v-else icon="circle" size="3x"></fa-icon>
     </div>
@@ -10,11 +10,14 @@
 
 <script>
 export default {
-  props: ['day'],
+  props: ['day', 'toggleDay'],
   methods: {
     getShortDate() {
       const date = new Date(this.day.date).toISOString().substr(0, 10);
       return date.split('-').splice(1, 2).join('/');
+    },
+    processToggle() {
+      this.toggleDay(this.day.date);
     },
   },
 };

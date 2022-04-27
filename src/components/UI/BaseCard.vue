@@ -21,7 +21,4 @@ div.base-card {
   margin: 2rem auto;
   width: fit-content;
 }
-
-div.habit-list-item {
-}
 </style>

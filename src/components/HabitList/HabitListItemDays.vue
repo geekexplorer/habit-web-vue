@@ -1,6 +1,6 @@
 <template>
   <div class="habit-list-item-days">
-    <habit-list-item-day v-for="day in days" :key="day.date" :day="day"></habit-list-item-day>
+    <habit-list-item-day v-for="day in days" :key="day.date" :day="day" :toggleDay="toggleDay"></habit-list-item-day>
   </div>
 </template>
 
@@ -11,6 +11,10 @@ export default {
   props: {
     days: {
       type: Array,
+      required: true,
+    },
+    toggleDay: {
+      type: Function,
       required: true,
     },
   },
