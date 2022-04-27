@@ -35,10 +35,11 @@ dialog {
   left: 30%;
   width: fit-content;
   z-index: 100;
-  padding: 2rem;
   margin: 0;
   overflow: hidden;
   background-color: white;
+  border-radius: var(--div-border-radius);
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
 }
 
 header {

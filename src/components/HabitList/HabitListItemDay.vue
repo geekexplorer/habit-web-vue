@@ -1,8 +1,8 @@
 <template>
   <div class="day">
     <div class="status" @click="processToggle">
-      <fa-icon class="done" v-if="day.done" icon="circle-check" size="3x"></fa-icon>
-      <fa-icon v-else icon="circle" size="3x"></fa-icon>
+      <fa-icon class="done" v-if="day.done" icon="circle-check" size="2x"></fa-icon>
+      <fa-icon v-else icon="circle" size="2x"></fa-icon>
     </div>
     <div class="date">{{ getShortDate() }}</div>
   </div>
@@ -27,11 +27,13 @@ export default {
 .day {
   text-align: center;
   cursor: pointer;
-  color: darkgray;
+  color: #999;
+  font-size: 1.25rem;
 }
 
 .status {
   padding-bottom: 0.5rem;
+  color: #ccc;
 }
 
 .done {

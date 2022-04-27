@@ -17,13 +17,21 @@ button {
 }
 
 button.basic {
-  background-color: burlywood;
+  background-color: var(--button-color);
+  border-radius: var(--button-border-radius);
+  padding: 0.4rem 0.5rem;
+  font-weight: bold;
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
+}
+
+button.back {
   padding: 0.4rem 0.5rem;
 }
 
 button.icon {
   background-color: transparent;
-  color: silver;
+  color: #ccc;
   padding: 0rem;
+  font-size: 0.8rem;
 }
 </style>

@@ -1,9 +1,7 @@
 <template>
   <base-card cardType="habit-list-item">
     <habit-list-item-details
-      :id="habit.id"
-      :name="habit.name"
-      :startDate="habit.startDate"
+      :habit="habit"
       :deleteHabit="deleteHabit"
       :updateHabit="updateHabit"
     ></habit-list-item-details>
@@ -50,5 +48,9 @@ export default {
   flex-wrap: nowrap;
   column-gap: 2rem;
   min-width: 20rem;
+  background-color: whitesmoke;
+  margin: 0 1rem;
+  border-radius: var(--div-border-radius);
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
 }
 </style>

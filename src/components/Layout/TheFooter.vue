@@ -8,14 +8,16 @@
 <style scoped>
 #footer {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 a {
   font-weight: bold;
   color: white;
   background-color: #6e5494;
-  padding: 0.1rem 0.25rem;
-  border: 1px solid transparent;
+  padding: 0 0.25rem;
+  border-radius: var(--div-border-radius);
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
 }
 </style>

@@ -15,10 +15,11 @@ export default {
 
 <style scoped>
 div.base-card {
-  border-radius: 7px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 1rem;
+  box-shadow: 0 2px 8px var(--box-shadow-color);
+  padding: 1rem 0rem 2rem 0rem;
   margin: 2rem auto;
   width: fit-content;
+  background-color: white;
+  border-radius: var(--button-border-radius);
 }
 </style>

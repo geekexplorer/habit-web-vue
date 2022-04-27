@@ -1,5 +1,5 @@
 <template>
-  <div class="habit-list">
+  <div class="habit-list" v-cloak>
     <base-modal v-if="modalType === 'createHabit'" @closeModal="closeModal()">
       <habit-form :submitForm="createNewHabit" :close="closeModal" title="Create New Habit"> </habit-form>
     </base-modal>
@@ -8,16 +8,18 @@
       </habit-form>
     </base-modal>
     <base-modal v-if="modalType === 'deleteHabit'" @closeModal="closeModal()">
-      <div>
-        <h3>Are you sure you want to delete {{ habitToDelete.name }}?</h3>
-      </div>
-
-      <menu>
-        <base-actions>
-          <base-button @click="closeModal()"> Back </base-button>
+      <base-confirmation :close="closeModal">
+        <template #header>
+          <h3>
+            Are you sure you want to delete <br /><strong>{{ habitToDelete.name }}</strong
+            >?
+          </h3>
+        </template>
+        <template #actions>
+          <base-button @click="closeModal" buttonStyle="quit">Back</base-button>
           <base-button @click="deleteHabit(habitToDelete.id)">Delete</base-button>
-        </base-actions>
-      </menu>
+        </template>
+      </base-confirmation>
     </base-modal>
 
     <header>
@@ -41,6 +43,7 @@
 <script>
 import HabitListItem from './HabitListItem.vue';
 import HabitForm from '../HabitForm/HabitForm.vue';
+import BaseConfirmation from '../UI/BaseConfirmation.vue';
 
 const createDays = (startDateString, duration) => {
   const msInDay = 8.64e7;
@@ -60,12 +63,13 @@ export default {
   components: {
     HabitListItem,
     HabitForm,
+    BaseConfirmation,
   },
   data() {
     return {
       habits: [
         {
-          id: new Date().toUTCString(),
+          id: '2022-04-04T07:00:00.000Z',
           name: 'Morning Meditation',
           startDate: '2022-04-04T07:00:00.000Z',
           duration: 7,
@@ -101,37 +105,37 @@ export default {
           ],
         },
         {
-          id: new Date().toUTCString(),
+          id: '2022-04-05T07:00:00.000Z',
           name: 'Make sure to do this thing every day.',
-          startDate: '4/4/22',
-          duration: 7,
+          startDate: '2022-04-04T07:00:00.000Z',
+          duration: 12,
           days: [
             {
-              date: '4/4/22',
+              date: '2022-04-04T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/5/22',
+              date: '2022-04-05T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/6/22',
+              date: '2022-04-06T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/7/22',
+              date: '2022-04-07T07:00:00.000Z',
               done: false,
             },
             {
-              date: '4/8/22',
+              date: '2022-04-08T07:00:00.000Z',
               done: false,
             },
             {
-              date: '4/9/22',
+              date: '2022-04-09T07:00:00.000Z',
               done: true,
             },
             {
-              date: '4/10/22',
+              date: '2022-04-10T07:00:00.000Z',
               done: false,
             },
           ],
@@ -177,14 +181,14 @@ export default {
       orig.duration = updatedHabitData.duration;
       this.modalType = null;
     },
-    processDelete(habit) {
+    processDelete(id) {
+      const habit = this.habits.find((h) => h.id === id);
       this.habitToDelete = habit;
       this.modalType = 'deleteHabit';
     },
     deleteHabit(id) {
-      console.log('here');
-      const indexToDelete = this.habits.findIndex((h) => h.Id === id);
-      this.habits.splice(indexToDelete, 1);
+      this.habits = this.habits.filter((h) => h.id !== id);
+      this.habitToDelete = null;
       this.modalType = null;
     },
   },
@@ -195,18 +199,19 @@ export default {
 header {
   text-align: center;
   font-weight: bold;
+  width: fit-content;
+  text-align: center;
+  margin: auto;
+  border-bottom: 2px solid black;
+  border-radius: var(--div-border-radius);
 }
 
 ul {
-  padding: 0 1rem;
+  padding: 1rem 1rem 1rem 0;
   min-height: 2rem;
 }
 
 li {
-  padding-bottom: 1rem;
-}
-
-li:last-child {
-  padding: 0;
+  padding-bottom: 0.75rem;
 }
 </style>

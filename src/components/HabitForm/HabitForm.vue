@@ -1,17 +1,24 @@
 <template>
-  <div>
+  <div class="container">
     <header>
       <h2>{{ title }}</h2>
     </header>
     <form class="habit-form" @submit.prevent="processForm">
       <div class="form-div">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" ref="nameInput" v-model="enteredName" />
+        <input
+          :class="invalidName && 'error'"
+          type="text"
+          name="name"
+          id="name"
+          ref="nameInput"
+          v-model="enteredName"
+        />
         <div v-if="invalidName" class="error">You must enter a habit name.</div>
       </div>
       <div class="form-div">
         <label for="startDate">Start Date</label>
-        <input type="date" :value="enteredStartDate" ref="startDateInput" />
+        <input :class="invalidStartDate && 'error'" type="date" :value="enteredStartDate" ref="startDateInput" />
         <div v-if="invalidStartDate" class="error">You must enter a valid start date.</div>
       </div>
       <div class="form-div">
@@ -21,7 +28,7 @@
         <input type="range" v-model="enteredDuration" min="7" max="31" />
       </div>
       <base-actions>
-        <base-button @click="close">Back</base-button>
+        <base-button @click="close" buttonStyle="back">Back</base-button>
         <base-button type="submit"> {{ habit ? 'Update' : 'Create' }}</base-button>
       </base-actions>
     </form>
@@ -51,7 +58,9 @@ export default {
   data() {
     return {
       enteredName: this.habit?.name || '',
-      enteredStartDate: this.habit?.startDate.substring(0, 10) || new Date().toISOString().substring(0, 10),
+      enteredStartDate:
+        this.habit?.startDate.substring(0, 10) ||
+        new Date(new Date().toLocaleDateString()).toISOString().substring(0, 10),
       enteredDuration: this.habit?.duration || 7,
       invalidName: false,
       invalidStartDate: false,
@@ -78,7 +87,7 @@ export default {
     },
     validateForm(name, startDate) {
       let isValid = true;
-      if (name.lenght <= 0) {
+      if (name.length <= 0) {
         this.invalidName = true;
         isValid = false;
       }
@@ -95,9 +104,23 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  padding: 2rem;
+}
+
 header {
   text-align: center;
   padding-bottom: 1rem;
+  width: fit-content;
+  margin: auto;
+}
+
+header > h2 {
+  background-color: var(--title-color);
+  padding: 0.25rem 1rem;
+  border-radius: var(--div-border-radius);
+  font-weight: bold;
+  box-shadow: 2px 8px 4px -6px var(--box-shadow-color);
 }
 
 .habit-form {
@@ -116,13 +139,16 @@ header {
 label {
   display: block;
   font-weight: bold;
+  font-size: 1.25rem;
   width: 100%;
+  padding-bottom: 0.25rem;
 }
 
 input {
-  border: 1px solid black;
+  border-bottom: 1px solid #999;
+  border-radius: var(--div-border-radius);
   width: 100%;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 input[type='range'] {
@@ -133,7 +159,8 @@ input[type='range'] {
   -webkit-appearance: none;
   width: 100%;
   height: 1rem;
-  border-radius: 5px;
+  border: 1px solid #999;
+  border-radius: var(--div-border-radius);
   background-repeat: no-repeat;
 }
 
@@ -142,29 +169,29 @@ input[type='range']::-webkit-slider-thumb {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #ccc;
+  background: var(--thumb-color);
   cursor: ew-resize;
   box-shadow: 0 0 2px 0 #555;
   transition: background 0.3s ease-in-out;
 }
 
 div.error {
-  margin-top: 0.5rem;
-  padding: 0.25rem;
+  padding: 0.1rem;
   font-size: 0.8rem;
+  color: red;
+  font-family: 'Roboto', sans-serif;
 }
 
 input.error {
-  border-color: red;
-}
-
-div.error {
   background-color: pink;
-  color: red;
 }
 
 label span {
+  position: relative;
   float: right;
+  top: 0.65rem;
+  right: 0.1rem;
+  font-size: 0.8rem;
   font-weight: normal;
   color: #aaa;
 }
