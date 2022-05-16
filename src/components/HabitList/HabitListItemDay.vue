@@ -37,7 +37,7 @@ export default {
 }
 
 .done {
-  color: gold;
+  color: var(--day-complete-color);
 }
 
 .date {

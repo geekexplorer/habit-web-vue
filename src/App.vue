@@ -36,13 +36,9 @@ export default {
   --title-color: #f8961eff;
   --habit-border-color: #277da1ff;
   --button-color: #7fc96bff;
-  --modal-title-color: #ffd043ff;
-  --modal-button-color: #ffd043ff;
   --day-complete-color: #ffd043ff;
   --day-incomplete-color: lightslategray;
   --error-color: rgba(230, 50, 50, 0.5);
-  --error-border-color: #e63232ff;
-  --alert-title-color: #f8961eff;
   --box-shadow-color: hsla(0, 0%, 0%, 0.3);
 
   --div-border-radius: 230px 15px 225px 15px/15px 225px 15px 10px;

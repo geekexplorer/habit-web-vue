@@ -178,7 +178,7 @@ input[type='range']::-webkit-slider-thumb {
 div.error {
   padding: 0.1rem;
   font-size: 0.8rem;
-  color: red;
+  color: var(--error-color);
   font-family: 'Roboto', sans-serif;
 }
 

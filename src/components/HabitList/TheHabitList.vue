@@ -106,7 +106,7 @@ export default {
         },
         {
           id: '2022-04-05T07:00:00.000Z',
-          name: 'Make sure to do this thing every day.',
+          name: 'Daily Exercise',
           startDate: '2022-04-04T07:00:00.000Z',
           duration: 12,
           days: [
