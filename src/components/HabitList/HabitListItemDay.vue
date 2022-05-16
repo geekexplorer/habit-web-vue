@@ -1,7 +1,12 @@
 <template>
   <div class="day">
     <div class="status" @click="processToggle">
-      <fa-icon class="done" v-if="day.done" icon="circle-check" size="2x"></fa-icon>
+      <fa-icon
+        class="done"
+        v-if="day.completed"
+        icon="circle-check"
+        size="2x"
+      ></fa-icon>
       <fa-icon v-else icon="circle" size="2x"></fa-icon>
     </div>
     <div class="date">{{ getShortDate() }}</div>
@@ -10,11 +15,11 @@
 
 <script>
 export default {
-  props: ['day', 'toggleDay'],
+  props: ["day", "toggleDay"],
   methods: {
     getShortDate() {
       const date = new Date(this.day.date).toISOString().substr(0, 10);
-      return date.split('-').splice(1, 2).join('/');
+      return date.split("-").splice(1, 2).join("/");
     },
     processToggle() {
       this.toggleDay(this.day.date);

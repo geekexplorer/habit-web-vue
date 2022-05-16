@@ -5,13 +5,16 @@
       :deleteHabit="deleteHabit"
       :updateHabit="updateHabit"
     ></habit-list-item-details>
-    <habit-list-item-days :days="habit.days" :toggleDay="toggleDay"></habit-list-item-days>
+    <habit-list-item-days
+      :days="habit.days"
+      :toggleDay="toggleDay"
+    ></habit-list-item-days>
   </base-card>
 </template>
 
 <script>
-import HabitListItemDetails from './HabitListItemDetails.vue';
-import HabitListItemDays from './HabitListItemDays.vue';
+import HabitListItemDetails from "./HabitListItemDetails.vue";
+import HabitListItemDays from "./HabitListItemDays.vue";
 
 export default {
   components: {
@@ -31,11 +34,17 @@ export default {
       type: Function,
       required: true,
     },
+    updateDay: {
+      type: Function,
+      required: true,
+    },
   },
   methods: {
     toggleDay(date) {
       const day = this.habit.days.find((d) => d.date === date);
-      day.done = !day.done;
+      day.completed = !day.completed;
+
+      this.updateDay(this.habit);
     },
   },
 };

@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import TheHeader from './components/Layout/TheHeader.vue';
-import TheFooter from './components/Layout/TheFooter.vue';
-import TheHabitList from './components/HabitList/TheHabitList.vue';
+import TheHeader from "./components/Layout/TheHeader.vue";
+import TheFooter from "./components/Layout/TheFooter.vue";
+import TheHabitList from "./components/HabitList/TheHabitList.vue";
 
 export default {
   components: {
@@ -24,8 +24,8 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Calligraffitti&family=Shadows+Into+Light&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Calligraffitti&family=Shadows+Into+Light&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
   /* Color Variables */
@@ -46,7 +46,7 @@ export default {
 }
 
 html {
-  font-family: 'Shadows Into Light', 'Roboto', sans-serif;
+  font-family: "Shadows Into Light", "Roboto", sans-serif;
 }
 
 body {
