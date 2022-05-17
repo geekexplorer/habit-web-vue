@@ -1,41 +1,53 @@
 <template>
-  <div class="habit-list" v-cloak>
-    <base-modal v-if="modalType === 'createHabit'" @closeModal="closeModal()">
-      <habit-form
-        :submitForm="createNewHabit"
-        :close="closeModal"
-        title="Create New Habit"
-      >
-      </habit-form>
-    </base-modal>
-    <base-modal v-if="modalType === 'updateHabit'" @closeModal="closeModal()">
-      <habit-form
-        :submitForm="updateHabit"
-        :close="closeModal"
-        title="Update Habit"
-        :habit="habitToUpdate"
-      >
-      </habit-form>
-    </base-modal>
-    <base-modal v-if="modalType === 'deleteHabit'" @closeModal="closeModal()">
-      <base-confirmation :close="closeModal">
-        <template #header>
-          <h3>
-            Are you sure you want to delete <br /><strong>{{
-              habitToDelete.name
-            }}</strong
-            >?
-          </h3>
-        </template>
-        <template #actions>
-          <base-button @click="closeModal" buttonStyle="quit">Back</base-button>
-          <base-button @click="deleteHabit(habitToDelete.id)"
-            >Delete</base-button
-          >
-        </template>
-      </base-confirmation>
-    </base-modal>
+  <base-modal v-if="modalType === 'createHabit'" @closeModal="closeModal()">
+    <habit-form
+      :submitForm="createNewHabit"
+      :close="closeModal"
+      title="Create New Habit"
+    >
+    </habit-form>
+  </base-modal>
+  <base-modal v-if="modalType === 'updateHabit'" @closeModal="closeModal()">
+    <habit-form
+      :submitForm="updateHabit"
+      :close="closeModal"
+      title="Update Habit"
+      :habit="habitToUpdate"
+    >
+    </habit-form>
+  </base-modal>
+  <base-modal v-if="modalType === 'deleteHabit'" @closeModal="closeModal()">
+    <base-confirmation :close="closeModal">
+      <template #header>
+        <h3>
+          Are you sure you want to delete <br /><strong>{{
+            habitToDelete.name
+          }}</strong
+          >?
+        </h3>
+      </template>
+      <template #actions>
+        <base-button @click="closeModal" buttonStyle="quit">Back</base-button>
+        <base-button @click="deleteHabit(habitToDelete.id)">Delete</base-button>
+      </template>
+    </base-confirmation>
+  </base-modal>
+  <base-modal v-if="modalType === 'error'" @closeModal="closeModal()">
+    <base-confirmation :close="closeModal">
+      <template #header>
+        <strong>
+          <h3>An error occurred.</h3>
+          <br />
+        </strong>
+      </template>
+      <p>{{ error }}</p>
+      <template #actions>
+        <base-button @click="closeModal">Ok</base-button>
+      </template>
+    </base-confirmation>
+  </base-modal>
 
+  <div class="habit-list" v-cloak>
     <header>
       <h2>My Habits</h2>
     </header>
@@ -108,6 +120,7 @@ export default {
       modalType: null,
       habitToDelete: null,
       habitToUpdate: null,
+      error: null,
     };
   },
   methods: {
@@ -134,9 +147,12 @@ export default {
           body: JSON.stringify(newHabitData),
         });
 
+        console.log(response);
+
         if (!response.ok) {
-          // TODO: Update with correct info
-          throw new Error("something went wrong");
+          throw new Error(
+            `Status Code: ${response.status} : ${response.statusText}`
+          );
         }
 
         const newHabit = await response.json();
@@ -144,7 +160,8 @@ export default {
 
         this.modalType = null;
       } catch (err) {
-        // TODO: wire into error modal
+        this.modalType = "error";
+        this.error = err.message;
       }
     },
     processUpdate(id) {
@@ -189,15 +206,15 @@ export default {
         );
 
         if (!response.ok) {
-          throw new Error("something went wrong");
-          // TODO: Update with accurate message
+          throw new Error(
+            `Status Code: ${response.status} : ${response.statusText}`
+          );
         }
 
         this.modalType = null;
         this.habitToUpdate = null;
       } catch (err) {
-        //TODO wire to error modal
-        console.log(err);
+        this.error = err.message;
       }
     },
 
@@ -213,14 +230,15 @@ export default {
           method: "DELETE",
         });
         if (!response.ok) {
-          throw new Error("Something went wrong");
-          // TODO: update with appropriate info.
+          throw new Error(
+            `Status Code: ${response.status} : ${response.statusText}`
+          );
         }
         this.habits = this.habits.filter((h) => h.id !== id);
         this.habitToDelete = null;
         this.modalType = null;
       } catch (err) {
-        //TODO: Wire into error modal
+        this.error = err.message;
       }
     },
   },
@@ -228,6 +246,13 @@ export default {
 </script>
 
 <style scoped>
+[v-cloak] {
+  display: none;
+}
+
+section {
+  min-width: 500px;
+}
 header {
   text-align: center;
   font-weight: bold;
@@ -245,5 +270,9 @@ ul {
 
 li {
   padding-bottom: 0.75rem;
+}
+
+p {
+  text-align: center;
 }
 </style>

@@ -1,18 +1,19 @@
 <template>
   <teleport to="body">
-    <div @click="close"></div>
-    <dialog open>
-      <slot></slot>
-    </dialog>
+    <div @click="close">
+      <dialog open @click.stop>
+        <slot></slot>
+      </dialog>
+    </div>
   </teleport>
 </template>
 
 <script>
 export default {
-  emits: ['closeModal'],
+  emits: ["closeModal"],
   methods: {
     close() {
-      this.$emit('closeModal');
+      this.$emit("closeModal");
     },
   },
 };
@@ -27,14 +28,16 @@ div {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
+  display: flex;
+  justify-content: center;
 }
 
 dialog {
   position: fixed;
   top: 20vh;
-  left: 30%;
+
   width: fit-content;
-  z-index: 100;
+
   margin: 0;
   overflow: hidden;
   background-color: white;
