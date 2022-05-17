@@ -76,6 +76,8 @@ import HabitListItem from "./HabitListItem.vue";
 import HabitForm from "../HabitForm/HabitForm.vue";
 import BaseConfirmation from "../UI/BaseConfirmation.vue";
 
+import HabitService from "../../services/HabitService";
+
 const createDays = (startDateString, duration) => {
   const msInDay = 8.64e7;
   const date = new Date(startDateString);
@@ -139,25 +141,8 @@ export default {
       };
 
       try {
-        const response = await fetch("http://10.0.0.12:5091/api/habit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newHabitData),
-        });
-
-        console.log(response);
-
-        if (!response.ok) {
-          throw new Error(
-            `Status Code: ${response.status} : ${response.statusText}`
-          );
-        }
-
-        const newHabit = await response.json();
+        const newHabit = HabitService.addHabit(newHabitData);
         this.habits.unshift(newHabit);
-
         this.modalType = null;
       } catch (err) {
         this.modalType = "error";
@@ -194,23 +179,7 @@ export default {
       existingHabit.duration = updatedHabitData.duration;
 
       try {
-        const response = await fetch(
-          `http://10.0.0.12:5091/api/habit/${existingHabit.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(existingHabit),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Status Code: ${response.status} : ${response.statusText}`
-          );
-        }
-
+        HabitService.updateHabit(existingHabit);
         this.modalType = null;
         this.habitToUpdate = null;
       } catch (err) {
@@ -226,14 +195,7 @@ export default {
 
     async deleteHabit(id) {
       try {
-        const response = await fetch(`http://10.0.0.12:5091/api/habit/${id}`, {
-          method: "DELETE",
-        });
-        if (!response.ok) {
-          throw new Error(
-            `Status Code: ${response.status} : ${response.statusText}`
-          );
-        }
+        HabitService.deleteHabit(id);
         this.habits = this.habits.filter((h) => h.id !== id);
         this.habitToDelete = null;
         this.modalType = null;
